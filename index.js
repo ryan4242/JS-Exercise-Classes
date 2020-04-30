@@ -156,6 +156,11 @@ class Instructor extends Lambdasian {
   grade(student, subject) {
     return `${student.name} receives a perfect score on ${subject}`;    
   };
+
+  studentsGrade(grade) {
+    grade += Math.floor(Math.random() * 101);
+    ryan.grade = grade;
+  }
 }
 
 /*
@@ -176,6 +181,7 @@ class Instructor extends Lambdasian {
 class Student extends Lambdasian {
   constructor(obj) {
     super(obj);
+    this.grade = 0;
     this.previousBackground = obj.previousBackground;
     this.className = obj.className;
     this.favSubjects = obj.favSubjects;
@@ -192,6 +198,18 @@ class Student extends Lambdasian {
   sprintChallenge(subject) {
     return `${this.name} has begun challenge on ${subject}`;
   };
+
+  graduate() {  
+    if(this.grade >= 100) {
+      return `Your grade is, 100%!! You got a perfect score!`;
+    } else if(this.grade > 70) {
+      return `Your grade is, ${this.grade}!! You graduated!`  
+    } else { 
+      let currentGrade = `Your grade is, ${this.grade}`;
+      pace.studentsGrade(this.grade);
+      return currentGrade;
+    };
+  }
 }
 
 /*
@@ -207,8 +225,20 @@ class Student extends Lambdasian {
         + `standUp` a method that takes in a slack channel and returns `{name} announces to {channel}, @channel standy times!`
         + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
 */
-class ProjectManager {
+class ProjectManager extends Instructor {
+  constructor(obj) {
+    super(obj);
+    this.gradClassName = obj.gradClassName;
+    this.favInstructor = obj.favInstructor;
+  };
 
+  standUp(channel) {
+    return `${this.name} announces to ${channel}, @channel standy times!`;
+  };
+
+  debugsCode(studentObj, sub) {
+    return `${this.name} debugs ${studentObj.name}'s code on ${sub}`;
+  };
 }
 
 /*
@@ -219,6 +249,25 @@ class ProjectManager {
       + This method, when called, will check the grade of the student and see if they're ready to graduate from Lambda School
       + If the student's grade is above a 70% let them graduate! Otherwise go back to grading their assignments to increase their score.
 */
+
+let pace = new Instructor({
+  specialty: 'reading',
+  favLanguage: 'JavaScript',
+  catchPhrase: 'Waba waba'
+});
+
+let ryan = new Student({
+  className: 'web17',
+  previousBackground: 'raging',
+  favSubjects: 'P.E.'
+});
+
+console.log(ryan.graduate());
+console.log(ryan.graduate());
+console.log(ryan.graduate());
+console.log(ryan.graduate());
+console.log(ryan.graduate());
+
 
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
